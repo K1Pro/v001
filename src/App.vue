@@ -2,73 +2,17 @@
   <div class="app-container">
     <template v-if="!email || !protocol || !site || !token">
       <div style="text-align: center">
-        <i
-          class="fa-regular fa-circle-xmark"
-          style="
-            color: red;
-            font-size: 25vw;
-            animation: horizontal 4s ease infinite;
-            padding: 5vw;
-          "
-        ></i>
-        <div
-          style="
-            color: red;
-            font-size: 2vw;
-            font-family: Arial, Helvetica, sans-serif;
-          "
-        >
-          Verification Failed
-        </div>
+        <i class="fa-regular fa-circle-xmark fail-verify-icon"></i>
+        <div class="fail-verify-text">Verification Failed</div>
       </div></template
     >
     <template v-else>
       <div style="text-align: center">
-        <i
-          class="fa-regular fa-circle-check"
-          style="
-            color: green;
-            font-size: 25vw;
-            animation: vertical 4s ease infinite;
-            padding: 5vw;
-          "
-        ></i>
-        <div
-          style="
-            color: green;
-            font-size: 2vw;
-            font-family: Arial, Helvetica, sans-serif;
-          "
-        >
-          Verification successful!
-        </div>
-        <div
-          style="
-            color: green;
-            font-size: 2vw;
-            font-family: Arial, Helvetica, sans-serif;
-          "
-        >
-          What would you like to do now?
-        </div>
-        <div
-          style="
-            color: blue;
-            font-size: 2vw;
-            font-family: Arial, Helvetica, sans-serif;
-          "
-        >
-          Go to app.
-        </div>
-        <div
-          style="
-            color: black;
-            font-size: 2vw;
-            font-family: Arial, Helvetica, sans-serif;
-          "
-        >
-          Close window.
-        </div>
+        <i class="fa-regular fa-circle-check success-verify-icon"></i>
+        <div class="success-verify-text">Verification successful!</div>
+        <div class="success-verify-text">What would you like to do now?</div>
+        <div class="success-verify-text">Go to app.</div>
+        <div class="success-verify-text">Close window.</div>
       </div>
     </template>
   </div>
@@ -136,5 +80,25 @@ export default {
   display: grid;
   place-items: center;
   height: 95vh;
+}
+.fail-verify-icon {
+  color: red;
+  font-size: 25vw;
+  animation: horizontal 4s ease infinite;
+  padding: 5vw;
+}
+.fail-verify-text {
+  color: red;
+  font-size: 2vw;
+}
+.success-verify-icon {
+  color: green;
+  font-size: 25vw;
+  animation: vertical 4s ease infinite;
+  padding: 5vw;
+}
+.success-verify-text {
+  color: green;
+  font-size: 2vw;
 }
 </style>
