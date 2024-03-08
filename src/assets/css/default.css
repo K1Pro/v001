@@ -1,0 +1,73 @@
+/* scrollbar width */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  /* background: #f1f1f1; original - looked good too */
+  background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  /* background: #305eac; original - looked good too */
+  background: #a8a8a8;
+}
+
+a {
+  cursor: pointer;
+}
+
+.validation-message {
+  color: red;
+  font-size: 12px;
+  background-color: white;
+  padding: 2px;
+  font-weight: bold;
+}
+
+.invalid {
+  border: 2px solid red;
+  color: red;
+}
+
+.invalid::placeholder {
+  color: red;
+  opacity: 1; /* Firefox */
+}
+
+.invalid::-ms-input-placeholder {
+  /* Edge 12 -18 */
+  color: red;
+}
+
+.minus {
+  border: none;
+  background: no-repeat center/100% url('../images/minus.png');
+  width: 20px;
+  height: 20px;
+  padding: 0;
+}
+
+.plus {
+  border: none;
+  background: no-repeat center/100% url('../images/plus.png');
+  width: 20px;
+  height: 20px;
+  padding: 0;
+}
+
+/* input:invalid:required {
+  background-image: linear-gradient(to right, pink, lightgreen);
+}
+
+input:valid {
+  border: 2px solid black;
+} */
