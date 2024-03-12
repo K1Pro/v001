@@ -4,11 +4,11 @@ const useAccountStore = Pinia.defineStore('account', {
       sessionID: '',
       loggedIn: false,
       email: email,
-      protocol: protocol,
-      site: site,
-      token: token,
+      password: token,
+      link: link,
+      appName: app_name,
       endPts: {
-        verifyAccountURL: verifyaccount_url,
+        verifyAccountURL: verifyaccount_url + '/accounts',
       },
     };
   },

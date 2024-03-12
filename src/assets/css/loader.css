@@ -1,15 +1,25 @@
+body {
+  padding: 0px;
+  margin: 0px;
+}
 #loader-container {
   display: grid;
   place-items: center;
   height: 95vh;
+  padding: 0px;
+  margin: 0px;
+  position: absolute;
+  top: 0px;
+  width: 100vw;
 }
 
 .loader {
-  border: 16px solid #f3f3f3;
+  border: 14px solid #f3f3f3;
+  /* border: 16px solid #f3f3f3; */
   border-radius: 50%;
-  border-top: 16px solid #3498db;
-  width: 120px;
-  height: 120px;
+  border-top: 14px solid #3498db;
+  width: 122px;
+  height: 122px;
   -webkit-animation: spin 2s linear infinite; /* Safari */
   animation: spin 2s linear infinite;
 }
@@ -18,6 +28,13 @@
 .spin {
   -webkit-animation: spin 2s linear infinite; /* Safari */
   animation: spin 2s linear infinite;
+}
+
+.fadeIn {
+  -webkit-animation: fadeIn ease 2s; /* Safari */
+  animation: fadeIn ease 2s;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
 }
 
 /* Safari */
@@ -36,5 +53,14 @@
   }
   100% {
     transform: rotate(360deg);
+  }
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
   }
 }

@@ -1,31 +1,63 @@
 <template>
-  <div class="app-container">
-    <template v-if="!email || !protocol || !site || !token">
-      <div style="text-align: center">
-        <i class="fa-regular fa-circle-xmark fail-verify-icon"></i>
-        <div class="fail-verify-text">Verification Failed</div>
-      </div></template
-    >
-    <template v-else>
-      <div style="text-align: center">
-        <i class="fa-regular fa-circle-check success-verify-icon"></i>
-        <div class="success-verify-text">Verification successful!</div>
-        <div class="success-verify-text">What would you like to do now?</div>
-        <div class="success-verify-text">Go to app.</div>
-        <div class="success-verify-text">Close window.</div>
+  <template
+    v-if="
+      (!email || !password || !link || !appName || !verified) &&
+      verified !== 'verifying'
+    "
+  >
+    <div class="icon-container">
+      <i class="fa-regular fa-circle-xmark fail-verify-icon fadeIn"></i>
+    </div>
+    <div class="text-container">
+      <div>
+        <div class="fail-verify-text fadeIn">
+          {{ appName ? appName + ' verification' : 'Verification' }} Failed
+        </div>
+        <p></p>
+        <div class="fail-verify-text fadeIn">
+          <a href="javascript:close()" @click="">Close window</a>
+        </div>
       </div>
-    </template>
-  </div>
+    </div>
+  </template>
+
+  <template v-else-if="verified === true">
+    <div class="icon-container">
+      <i class="fa-regular fa-circle-check success-verify-icon fadeIn"></i>
+    </div>
+
+    <div class="text-container">
+      <div>
+        <div class="success-verify-text fadeIn">
+          {{ appName }} verification successful!
+        </div>
+        <p></p>
+        <div v-if="redirect" class="success-verify-text fadeIn">
+          <a :href="link + '?session_id=' + sessionID + '&token=' + token">
+            Go to the {{ appName }} app</a
+          >
+        </div>
+        <div class="success-verify-text">
+          <a href="javascript:close()" @click="">Close window</a>
+        </div>
+      </div>
+    </div>
+  </template>
+
+  <template v-else> </template>
 </template>
 
 <script>
-// import Snackbar from './components/Snackbar.vue';
-
 export default {
   name: 'App',
 
-  components: {
-    // Snackbar,
+  data() {
+    return {
+      verified: 'verifying',
+      redirect: false,
+      token: null,
+      sessionID: null,
+    };
   },
 
   computed: {
@@ -33,9 +65,9 @@ export default {
     ...Pinia.mapWritableState(useAccountStore, [
       'loggedIn',
       'email',
-      'protocol',
-      'site',
-      'token',
+      'password',
+      'link',
+      'appName',
       'endPts',
     ]),
   },
@@ -51,13 +83,26 @@ export default {
           },
           body: JSON.stringify({
             Email: this.email.toLowerCase(),
-            Protocol: this.protocol.toLowerCase(),
-            Site: this.site.toLowerCase(),
-            Token: this.token,
+            Password: this.password,
+            Referer: this.link.toLowerCase(),
+            AppName: this.appName,
           }),
         });
         const verifyAccountResJSON = await response.json();
+        const loaderElement = document.getElementById('loader-container');
+        setTimeout(function () {
+          loaderElement.remove();
+        }, 3000);
         if (verifyAccountResJSON.success) {
+          this.verified = true;
+          this.redirect = verifyAccountResJSON.data.redirect ? true : false;
+          this.token = verifyAccountResJSON.data.accesstoken;
+          this.sessionID = verifyAccountResJSON.data.session_id;
+        } else {
+          this.verified = false;
+          this.redirect = false;
+          this.token = null;
+          this.sessionID = null;
         }
         console.log(verifyAccountResJSON);
       } catch (error) {
@@ -67,38 +112,53 @@ export default {
   },
 
   created() {
-    const loaderElement = document.getElementById('loader-container');
-    loaderElement.remove();
+    this.verifyAccount();
   },
-
-  mounted() {},
 };
 </script>
 
 <style>
-.app-container {
+.icon-container {
   display: grid;
   place-items: center;
   height: 95vh;
+  padding: 0px;
+  margin: 0px;
+  position: absolute;
+  top: 0px;
+  width: 100vw;
+}
+.text-container {
+  display: grid;
+  place-items: center;
+  height: 50vh;
+  text-align: center;
+  position: absolute;
+  bottom: 0px;
+  width: 100vw;
+  padding: 0px;
+  margin: 0px;
 }
 .fail-verify-icon {
   color: red;
-  font-size: 25vw;
-  animation: horizontal 4s ease infinite;
-  padding: 5vw;
+  font-size: 150px;
+  /* animation-delay: -10s;
+  animation: horizontal 4s ease infinite; */
+  /* padding: 5vw; */
 }
 .fail-verify-text {
   color: red;
-  font-size: 2vw;
+  font-size: 20px;
 }
 .success-verify-icon {
   color: green;
-  font-size: 25vw;
-  animation: vertical 4s ease infinite;
-  padding: 5vw;
+  font-size: 150px;
+  /* animation-delay: -10s;
+  animation: vertical 4s ease infinite; */
+  /* padding: 5vw; */
 }
 .success-verify-text {
   color: green;
-  font-size: 2vw;
+  font-size: 20px;
 }
 </style>
