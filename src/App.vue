@@ -112,7 +112,11 @@ export default {
   },
 
   created() {
-    this.verifyAccount();
+    if (this.email && this.password && this.link && this.appName) {
+      this.verifyAccount();
+    } else {
+      this.verified = false;
+    }
   },
 };
 </script>
